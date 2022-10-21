@@ -1,0 +1,86 @@
+﻿@model StudentsListViewModel
+
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h2>Contoso Students</h2>
+
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span> @*to help assistive technology*@
+        </button>
+        @ViewData["Message"]
+    </div>
+}
+
+<p>
+    <a asp-action="Add">Add New Student</a>
+</p>
+
+@* if the request doenst make a change to the database, we use a get request. *@
+<form asp-action="Index" method="get">
+    <div>
+        <p>
+            Find by name: <input type="text" name="SearchString"
+                                 value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-controller="Students" asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                <a asp-controller="Students" asp-action="Index"
+                   asp-route-sortBy="@ViewData["NameSortParam"]"
+                   asp-route-searchString="@ViewData["CurrentFilter"]">
+                    Last name
+                </a>
+            </th>
+            <th>
+                First name
+            </th>
+            <th>
+                <a asp-controller="Students" asp-action="Index"
+                   asp-route-sortBy="@ViewData["DateSortParam"]"
+                   asp-route-searchString="@ViewData["CurrentFilter"]">
+                    Enrollment date
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model.Students)
+        {
+            <tr>
+                <td>
+                    @s.LastName
+                </td>
+                <td>
+                    @s.FirstName
+                </td>
+                <td>
+                    @s.EnrollmentDate.ToShortDateString()
+                </td>
+                <td>
+                    <a asp-controller="Students" asp-action="Edit" asp-route-id="@s.StudentID">Edit</a> |
+                    <a asp-controller="Students" asp-action="Details" asp-route-id="@s.StudentID">Details</a> |
+                    <a asp-controller="Students" asp-action="Delete" asp-route-id="@s.StudentID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div page-model="@Model.PagingInfo" page-action="Index"
+     page-searchstring="@ViewData["CurrentFilter"]"
+     page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-secondary"
+     page-class-selected="btn-primary" class="btn-group pull-right m-1">
+</div>

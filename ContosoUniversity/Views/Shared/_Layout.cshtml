@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<!-- CSIS3734 (2022): SU4 (Contoso University) -->
+<!-- Add Personal details here-->
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!--  Bootstrap -->
+    <link rel="stylesheet" asp-href-include="/lib/bootstrap/css/bootstrap.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" asp-href-include="/lib/font-awesome/css/all.min.css" />
+
+    <title>Contoso - @ViewData["Title"]</title>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="navbar navbar-expand-md bg-dark navbar-dark justify-content-center">
+        <div class="container">
+            <!-- Brand -->
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">CONTOSO</a>
+
+            <!-- Toggler/collapsible Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#MyNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse justify-content-stretch"
+                 id="MyNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">About</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Students" asp-action="Index">Students</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Admin</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-controller="Admin"
+                                       asp-action="Index">User Management</a>
+                                    <a class="dropdown-item" asp-controller="RoleAdmin"
+                                       asp-action="Index">Role Management</a>
+
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+
+                <ul class="navbar-nav ml-auto">
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-link">Hello, @User.Identity.Name</li>
+                        <li class="nav-item">
+                            <form asp-controller="Account" asp-action="Logout" method="post">
+
+                                <button class="btn btn-link nav-link" type="submit">Log Out</button>
+
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Login">Log in</a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="pb-3">
+            @RenderBody()
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="border-top footer text-muted text-center small">
+            <p>
+                Created by: Shaun Ntsele<br />
+                @*<span class="fas fa-copyright"></span> CSIS3734 - UFS 2022*@
+            </p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script asp-src-include="lib/jquery/jquery.slim.min.js"></script>
+    <script asp-src-include="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

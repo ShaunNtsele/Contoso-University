@@ -1,0 +1,28 @@
+﻿@model Student
+
+<p>
+    <span class="font-weight-bold">
+        @Html.DisplayNameFor(model => model.LastName)
+    </span><br />
+
+    @Model.LastName
+</p>
+<p>
+    <span class="font-weight-bold">
+        @Html.DisplayNameFor(model => model.FirstName)
+    </span><br />
+    @Model.FirstName
+</p>
+<p>
+    <span class="font-weight-bold">
+        @Html.DisplayNameFor(model => model.Initials)
+    </span><br />
+    @Model.Initials
+</p>
+<p>
+    <span class="font-weight-bold">
+        @Html.DisplayNameFor(model => model.EnrollmentDate)
+    </span><br />
+    @Model.EnrollmentDate.ToShortDateString()
+</p>
+
